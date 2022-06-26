@@ -1,0 +1,29 @@
+type Transfer @entity {
+  id: ID!
+  txHash: Bytes!
+  from: Bytes!
+  to: Bytes!
+  value: BigInt!
+  tokenId: BigInt!
+}
+
+type Wash @entity {
+  id: Bytes!
+  inTransfer: Transfer!
+  outTransfer: Transfer!
+  washer: Washer!
+}
+
+type Singleton @entity {
+  id: ID!
+  washCount: BigInt!
+  totalWashValue: BigInt!
+}
+
+type Washer @entity {
+  id: Bytes!
+  washCount: BigInt!
+  totalWashValue: BigInt!
+  # related: [Washer!]!
+  washes: [Wash!]! @derivedFrom(field: "washer")
+}
